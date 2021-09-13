@@ -1,6 +1,6 @@
 
 {
-  "name": "react-native-rncryptor",
+  "name": "react-native-rncryptor-base64",
   "version": "1.0.0",
   "description": "React Native RNCryptor",
   "main": "index.js",
@@ -13,7 +13,7 @@
     "rncryptor",
     "crypto"
   ],
-  "author": "richfisher",
+  "author": "levils114",
   "license": "MIT",
   "peerDependencies": {
   },

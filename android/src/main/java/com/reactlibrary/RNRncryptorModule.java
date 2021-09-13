@@ -45,7 +45,7 @@ public class RNRncryptorModule extends ReactContextBaseJavaModule {
 
     try {
       byte[] text = cryptor.decryptData(data, password.toCharArray());
-      promise.resolve(new String(text));
+      promise.resolve(Base64.encodeToString(text, Base64.DEFAULT));
     } catch (CryptorException e) {
       e.printStackTrace();
       promise.reject(e);
