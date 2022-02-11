@@ -6,7 +6,11 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.Promise;
+
 import android.util.Base64;
+import java.math.BigInteger;
+import java.io.*;
+
 import org.cryptonode.jncryptor.*;
 
 public class RNRncryptorModule extends ReactContextBaseJavaModule {
@@ -47,6 +51,37 @@ public class RNRncryptorModule extends ReactContextBaseJavaModule {
       byte[] text = cryptor.decryptData(data, password.toCharArray());
       promise.resolve(Base64.encodeToString(text, Base64.DEFAULT));
     } catch (CryptorException e) {
+      e.printStackTrace();
+      promise.reject(e);
+    }
+  }
+
+  @ReactMethod
+  public void decryptStream(String password, String cryptedFilePath, String destPath, Promise promise) {
+    try{
+      int bufferSize = 1024 * 1024;
+
+      FileInputStream fileInputStream = new FileInputStream(cryptedFilePath);
+      InputStream cryptor =  cryptor = new AES256JNCryptorInputStream(fileInputStream, password.toCharArray());
+      File finalFile = new File(destPath);
+      FileOutputStream fileOutputStream = new FileOutputStream(finalFile);
+
+      int total = 0;
+
+      BigInteger bigInt = BigInteger.valueOf(bufferSize);      
+      byte[] buffer = bigInt.toByteArray();
+
+      int i;
+      while ((i=cryptor.read(buffer))!=-1) {
+        System.out.println(total);
+        total += i;
+        fileOutputStream.write(buffer, 0, i);
+      }
+
+      fileOutputStream.close();
+
+      promise.resolve(true);
+    } catch(Exception e){
       e.printStackTrace();
       promise.reject(e);
     }

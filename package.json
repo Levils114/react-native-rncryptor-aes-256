@@ -1,7 +1,7 @@
 
 {
   "name": "react-native-rncryptor-base64",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "React Native RNCryptor",
   "main": "index.js",
   "scripts": {
