@@ -34,7 +34,8 @@ RCT_EXPORT_METHOD(decrypt:(NSString *)base64
     NSData *decryptedData = [RNDecryptor decryptData:data
                                         withPassword:password
                                                error:&error];
-    NSString *string = [[NSString alloc] initWithData:decryptedData encoding:NSUTF8StringEncoding];
+
+    NSString *string = [decryptedData base64EncodedStringWithOptions:(0)];
     
     if(error){
         reject(@"Error", @"Decrypt failed", error);
