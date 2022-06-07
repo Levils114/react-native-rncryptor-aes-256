@@ -31,7 +31,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.facebook.react:react-native:+'
-    compile 'org.cryptonode.jncryptor:jncryptor:+'
+    implementation 'com.facebook.react:react-native:+'
+    implementation 'org.cryptonode.jncryptor:jncryptor:+'
 }
   
