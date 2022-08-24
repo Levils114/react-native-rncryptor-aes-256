@@ -59,28 +59,29 @@ public class RNRncryptorModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void decryptStream(String password, String cryptedFilePath, String destPath, Promise promise) {
     try{
-      int bufferSize = 1024 * 1024;
-
       FileInputStream fileInputStream = new FileInputStream(cryptedFilePath);
-      InputStream cryptor =  cryptor = new AES256JNCryptorInputStream(fileInputStream, password.toCharArray());
+      BufferedInputStream fileBufferedInputStream = new BufferedInputStream(fileInputStream);
+      InputStream AESinStream = new AES256JNCryptorInputStream(fileBufferedInputStream, password.toCharArray());
       File finalFile = new File(destPath);
       FileOutputStream fileOutputStream = new FileOutputStream(finalFile);
+      BufferedOutputStream fileBufferedOutputStream = new BufferedOutputStream(fileOutputStream);
 
       int total = 0;
 
-      BigInteger bigInt = BigInteger.valueOf(bufferSize);      
-      byte[] buffer = bigInt.toByteArray();
-
-      int i;
-      while ((i=cryptor.read(buffer))!=-1) {
-        System.out.println(total);
-        total += i;
-        fileOutputStream.write(buffer, 0, i);
+      try {    
+        byte[] buffer = new byte[8192];
+        
+        int i;
+        while ((i=AESinStream.read(buffer))!=-1) {
+          total += i;
+          fileBufferedOutputStream.write(buffer, 0, i);
+        }
+      } catch (Exception e) {
+        promise.reject(e);
+      } finally {
+        fileBufferedOutputStream.close();
+        promise.resolve(true);
       }
-
-      fileOutputStream.close();
-
-      promise.resolve(true);
     } catch(Exception e){
       e.printStackTrace();
       promise.reject(e);
