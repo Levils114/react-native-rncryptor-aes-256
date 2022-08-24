@@ -1,7 +1,7 @@
 
 {
   "name": "react-native-rncryptor-base64",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "React Native RNCryptor",
   "main": "index.js",
   "homepage": "https://github.com/Levils114/react-native-rncryptor-aes-256#readme",
